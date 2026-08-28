@@ -124,6 +124,30 @@ body::after {
   pointer-events: none;
 }
 
+.ambient-orb {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  width: 460px;
+  height: 460px;
+  opacity: 0;
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 18%, transparent), color-mix(in srgb, var(--blue) 8%, transparent) 40%, transparent 70%);
+  filter: blur(8px);
+  transform: translate3d(-600px, -600px, 0);
+  transition: opacity 260ms ease;
+  pointer-events: none;
+  will-change: transform;
+}
+
+body.has-pointer .ambient-orb { opacity: 0.72; }
+
+.app-main,
+.site-footer {
+  position: relative;
+  z-index: 1;
+}
+
 img,
 svg {
   display: block;
@@ -519,17 +543,24 @@ p {
   font-weight: 900;
   letter-spacing: 0.09em;
   transform: translateX(50%);
+  transition: background-color 180ms ease, color 180ms ease, transform 180ms ease;
 }
 
 .node-card {
   position: absolute;
   min-width: 156px;
   padding: 15px;
+  appearance: none;
+  color: var(--ink);
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 15px;
   box-shadow: var(--shadow);
   backdrop-filter: blur(14px);
+  cursor: pointer;
+  text-align: left;
+  transform: translateY(0) scale(1);
+  transition: border-color 180ms ease, background-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
 }
 
 .node-card::before {
@@ -551,6 +582,51 @@ p {
 .node-card small {
   color: var(--muted);
   font-size: 0.7rem;
+}
+
+.node-card:hover,
+.node-card:focus-visible,
+.node-card.is-active {
+  background: color-mix(in srgb, var(--surface-solid) 90%, var(--accent-soft));
+  border-color: var(--line-strong);
+  box-shadow: var(--shadow), 0 0 0 4px var(--accent-soft);
+  transform: translateY(-4px) scale(1.025);
+}
+
+.node-card.is-active::before {
+  animation: node-pulse 1.8s ease-in-out infinite;
+}
+
+.blueprint-hint {
+  position: absolute;
+  top: -4%;
+  left: 50%;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  color: var(--muted);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 0.62rem;
+  font-weight: 820;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transform: translateX(-50%);
+}
+
+.blueprint-hint::before {
+  width: 6px;
+  aspect-ratio: 1;
+  content: "";
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--accent);
+}
+
+@keyframes node-pulse {
+  50% { box-shadow: 0 0 22px var(--accent); }
 }
 
 .node-1 { top: 6%; left: -2%; }
@@ -656,7 +732,10 @@ p {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
+  transform: perspective(1000px) rotateX(var(--card-rx, 0deg)) rotateY(var(--card-ry, 0deg)) translateY(var(--card-lift, 0px));
+  transform-style: preserve-3d;
   transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+  will-change: transform;
 }
 
 .project-card::before {
@@ -669,9 +748,9 @@ p {
 }
 
 .project-card:hover {
+  --card-lift: -5px;
   border-color: var(--line-strong);
   box-shadow: var(--shadow);
-  transform: translateY(-5px);
 }
 
 .project-card[hidden] {
@@ -1889,6 +1968,8 @@ button.contact-link {
 }
 
 @media (max-width: 980px) {
+  .ambient-orb { display: none; }
+  .project-card { transform: none; will-change: auto; }
   .home-hero {
     min-height: auto;
     grid-template-columns: 1fr;
@@ -2067,6 +2148,7 @@ button.contact-link {
   .blueprint { min-height: 300px; }
   .blueprint-grid { width: 280px; }
   .node-card { display: none; }
+  .blueprint-hint { display: none; }
   .page-hero { min-height: 360px; padding-block: 70px 48px; }
 }
 
@@ -2115,7 +2197,10 @@ button.contact-link {
 
 /* Self-contained application routing */
 .app-view { display: none; }
-.js .app-view.is-active { display: block; }
+.js .app-view.is-active {
+  display: block;
+  animation: app-view-enter 360ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
 .no-js #home { display: block; }
 .no-js .app-view:target { display: block; }
 .no-js .app-main:has(.app-view:target) #home:not(:target) { display: none; }
@@ -2132,10 +2217,14 @@ button.contact-link {
   background: linear-gradient(90deg, var(--accent), var(--blue));
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 280ms ease;
+  box-shadow: 0 0 18px color-mix(in srgb, var(--accent) 55%, transparent);
+  transition: transform 90ms linear;
   pointer-events: none;
 }
-.route-progress.is-moving { transform: scaleX(1); }
+@keyframes app-view-enter {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 @media (max-width: 780px) {
   .app-view > .page-hero,
   .app-view > .case-hero { min-height: auto; }
@@ -2143,7 +2232,8 @@ button.contact-link {
 </style>
 </head>
 <body>
-  <div class="route-progress" aria-hidden="true"></div>
+  <div class="ambient-orb" data-ambient-orb aria-hidden="true"></div>
+  <div class="route-progress" data-scroll-progress aria-hidden="true"></div>
   <a class="skip-link" href="#app-content">Skip to main content</a>
   <header class="site-header">
     <nav class="nav-shell container" aria-label="Primary navigation">
@@ -2183,20 +2273,21 @@ button.contact-link {
         </div>
 
         <div class="blueprint reveal" aria-label="Interactive diagram connecting parameters, CAD, validation, and production" data-blueprint>
+          <div class="blueprint-hint" aria-hidden="true">Explore the engineering system</div>
           <div class="blueprint-grid" aria-hidden="true"></div>
-          <div class="portrait-core"><img fetchpriority="high" decoding="async" src="/assets/image-4acfcc83f92e.jpg" alt="Portrait of Kunal Karankal"><span>CAD + AUTOMATION</span></div>
-          <div class="node-card node-1"><strong>Inputs</strong><small>Parameters & intent</small></div>
-          <div class="node-card node-2"><strong>Model</strong><small>Inventor & Creo</small></div>
-          <div class="node-card node-3"><strong>Validate</strong><small>Fit, form & function</small></div>
-          <div class="node-card node-4"><strong>Deliver</strong><small>Production-ready output</small></div>
+          <div class="portrait-core"><img fetchpriority="high" decoding="async" src="/assets/image-4acfcc83f92e.jpg" alt="Portrait of Kunal Karankal"><span data-blueprint-label>CAD + AUTOMATION</span></div>
+          <button class="node-card node-1 is-active" type="button" data-engineering-node data-stage="INPUTS" aria-pressed="true"><strong>Inputs</strong><small>Parameters & intent</small></button>
+          <button class="node-card node-2" type="button" data-engineering-node data-stage="MODEL" aria-pressed="false"><strong>Model</strong><small>Inventor & Creo</small></button>
+          <button class="node-card node-3" type="button" data-engineering-node data-stage="VALIDATE" aria-pressed="false"><strong>Validate</strong><small>Fit, form & function</small></button>
+          <button class="node-card node-4" type="button" data-engineering-node data-stage="DELIVER" aria-pressed="false"><strong>Deliver</strong><small>Production-ready output</small></button>
         </div>
       </section>
 
       <div class="stat-strip reveal" aria-label="Career highlights">
-        <div class="stat"><strong>2.5+</strong><span>Years in mechanical design and R&D</span></div>
-        <div class="stat"><strong>9</strong><span>36 kV RMU variants supported</span></div>
-        <div class="stat"><strong>30%</strong><span>Faster IoT energy evaluation</span></div>
-        <div class="stat"><strong>1</strong><span>Springer book chapter co-authored</span></div>
+        <div class="stat"><strong data-count="2.5" data-suffix="+">2.5+</strong><span>Years in mechanical design and R&D</span></div>
+        <div class="stat"><strong data-count="9">9</strong><span>36 kV RMU variants supported</span></div>
+        <div class="stat"><strong data-count="30" data-suffix="%">30%</strong><span>Faster IoT energy evaluation</span></div>
+        <div class="stat"><strong data-count="1">1</strong><span>Springer book chapter co-authored</span></div>
       </div>
       <div class="remote-banner reveal" aria-label="Remote role preference">
         <div class="availability">Remote work preference</div>
@@ -2843,6 +2934,71 @@ if (!reduceMotion && 'IntersectionObserver' in window) {
   document.querySelectorAll('.reveal').forEach((element) => element.classList.add('is-visible'));
 }
 
+const ambientOrb = document.querySelector('[data-ambient-orb]');
+if (ambientOrb && !reduceMotion && window.matchMedia('(pointer: fine)').matches && window.matchMedia('(min-width: 981px)').matches) {
+  let orbTargetX = -600;
+  let orbTargetY = -600;
+  let orbCurrentX = -600;
+  let orbCurrentY = -600;
+  let orbFrame = 0;
+  const renderOrb = () => {
+    orbCurrentX += (orbTargetX - orbCurrentX) * 0.16;
+    orbCurrentY += (orbTargetY - orbCurrentY) * 0.16;
+    ambientOrb.style.transform = `translate3d(${orbCurrentX - 230}px, ${orbCurrentY - 230}px, 0)`;
+    if (Math.abs(orbTargetX - orbCurrentX) > 0.5 || Math.abs(orbTargetY - orbCurrentY) > 0.5) {
+      orbFrame = window.requestAnimationFrame(renderOrb);
+    } else {
+      orbFrame = 0;
+    }
+  };
+  document.addEventListener('pointermove', (event) => {
+    orbTargetX = event.clientX;
+    orbTargetY = event.clientY;
+    body.classList.add('has-pointer');
+    if (!orbFrame) orbFrame = window.requestAnimationFrame(renderOrb);
+  }, { passive: true });
+}
+
+const blueprintNodes = [...document.querySelectorAll('[data-engineering-node]')];
+const blueprintLabel = document.querySelector('[data-blueprint-label]');
+const activateBlueprintNode = (activeNode) => {
+  blueprintNodes.forEach((node) => {
+    const active = node === activeNode;
+    node.classList.toggle('is-active', active);
+    node.setAttribute('aria-pressed', String(active));
+  });
+  if (blueprintLabel) blueprintLabel.textContent = activeNode.dataset.stage;
+};
+blueprintNodes.forEach((node) => {
+  node.addEventListener('pointerenter', () => activateBlueprintNode(node));
+  node.addEventListener('focus', () => activateBlueprintNode(node));
+  node.addEventListener('click', () => activateBlueprintNode(node));
+});
+
+const statCounters = [...document.querySelectorAll('[data-count]')];
+if (!reduceMotion && 'IntersectionObserver' in window) {
+  const statObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      const counter = entry.target;
+      const target = Number(counter.dataset.count);
+      const suffix = counter.dataset.suffix || '';
+      const decimals = String(target).includes('.') ? 1 : 0;
+      const startedAt = performance.now();
+      const animateCount = (time) => {
+        const progress = Math.min((time - startedAt) / 900, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        counter.textContent = `${(target * eased).toFixed(decimals)}${suffix}`;
+        if (progress < 1) window.requestAnimationFrame(animateCount);
+      };
+      counter.textContent = `0${suffix}`;
+      window.requestAnimationFrame(animateCount);
+      statObserver.unobserve(counter);
+    });
+  }, { threshold: 0.7 });
+  statCounters.forEach((counter) => statObserver.observe(counter));
+}
+
 document.querySelectorAll('[data-filter]').forEach((button) => {
   button.addEventListener('click', () => {
     const filter = button.dataset.filter;
@@ -2876,6 +3032,31 @@ if (blueprint && !reduceMotion && window.matchMedia('(pointer: fine)').matches) 
     tiltFrame = 0;
     blueprint.style.setProperty('--tilt-x', '0deg');
     blueprint.style.setProperty('--tilt-y', '0deg');
+  });
+}
+
+if (!reduceMotion && window.matchMedia('(pointer: fine)').matches && window.matchMedia('(min-width: 981px)').matches) {
+  document.querySelectorAll('.project-card').forEach((card) => {
+    let cardFrame = 0;
+    let cardRotateX = 0;
+    let cardRotateY = 0;
+    card.addEventListener('pointermove', (event) => {
+      const rect = card.getBoundingClientRect();
+      cardRotateY = ((event.clientX - rect.left) / rect.width - 0.5) * 5;
+      cardRotateX = ((event.clientY - rect.top) / rect.height - 0.5) * -5;
+      if (cardFrame) return;
+      cardFrame = window.requestAnimationFrame(() => {
+        card.style.setProperty('--card-rx', `${cardRotateX}deg`);
+        card.style.setProperty('--card-ry', `${cardRotateY}deg`);
+        cardFrame = 0;
+      });
+    }, { passive: true });
+    card.addEventListener('pointerleave', () => {
+      if (cardFrame) window.cancelAnimationFrame(cardFrame);
+      cardFrame = 0;
+      card.style.setProperty('--card-rx', '0deg');
+      card.style.setProperty('--card-ry', '0deg');
+    });
   });
 }
 
@@ -2933,7 +3114,19 @@ document.querySelectorAll('[data-document-preview]').forEach((image) => {
 
 const appRouteNames = new Set(["home","work","experience","credentials","resume","contact","project-cad-configurator","project-switchgear","project-fin-cfd","project-iot-energy"]);
 const appRouteTitles = {"home":"Kunal Karankal | Mechanical Design Engineer & CAD Automation","work":"Work | Kunal Karankal","experience":"Experience | Kunal Karankal","credentials":"Credentials | Kunal Karankal","resume":"Resume | Kunal Karankal","contact":"Contact | Kunal Karankal","project-cad-configurator":"CAD Configurator | Kunal Karankal","project-switchgear":"Switchgear Design | Kunal Karankal","project-fin-cfd":"Fin CFD Study | Kunal Karankal","project-iot-energy":"IoT Energy System | Kunal Karankal"};
-const appProgress = document.querySelector('.route-progress');
+const appProgress = document.querySelector('[data-scroll-progress]');
+let scrollProgressFrame = 0;
+const updateScrollProgress = () => {
+  const available = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = available > 0 ? Math.min(window.scrollY / available, 1) : 0;
+  if (appProgress) appProgress.style.transform = `scaleX(${progress})`;
+  scrollProgressFrame = 0;
+};
+const scheduleScrollProgress = () => {
+  if (!scrollProgressFrame) scrollProgressFrame = window.requestAnimationFrame(updateScrollProgress);
+};
+window.addEventListener('scroll', scheduleScrollProgress, { passive: true });
+window.addEventListener('resize', scheduleScrollProgress, { passive: true });
 
 const showAppRoute = () => {
   const requested = window.location.hash.slice(1);
@@ -2954,8 +3147,7 @@ const showAppRoute = () => {
   setMenu(false);
   window.scrollTo({ top: 0, behavior: 'auto' });
   document.querySelectorAll('.app-view.is-active .reveal').forEach((element) => element.classList.add('is-visible'));
-  appProgress.classList.add('is-moving');
-  window.setTimeout(() => appProgress.classList.remove('is-moving'), 320);
+  scheduleScrollProgress();
 };
 
 window.addEventListener('hashchange', showAppRoute);
