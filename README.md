@@ -30,3 +30,9 @@ Pointer-heavy effects are disabled on smaller screens. Reduced-motion preference
 - Output Directory: leave empty
 
 The website entry point is `index.html`.
+
+## Interactive models and motion
+
+The on-demand 3D explorer provides five simplified procedural concept models: filtration pressure vessel, RMU, GIS, finned heat sink, and an energy-monitoring module. Visitors can rotate, zoom, switch between assembled/exploded states, adjust separation, inspect wireframes, and reset. These are illustrative models, not original manufacturer CAD assemblies. Three.js 0.180.0 and OrbitControls are served locally; their MIT license is included in assets. Rendering runs only when controls or layout change, with no continuous WebGL loop.
+
+Motion controls remember a visitor's explicit preference. System reduced-motion preferences govern the first visit. Visible pages include floating workflow tabs and images, hover depth, and scroll reveals. Pause removes motion and reveals all content. The hero label sits above the model's motion area.

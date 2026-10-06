@@ -2249,11 +2249,11 @@ button.contact-link {
 .hero-identity strong, .hero-identity span { display: block; }
 .hero-identity strong { font-size: .85rem; }
 .hero-identity span { color: var(--muted); font-size: .72rem; }
-.blueprint { min-height: 570px; isolation: isolate; }
+.blueprint { min-height: 570px; margin-top: 72px; isolation: isolate; }
 .blueprint-grid { inset: 49% auto auto 50%; width: 94%; border-radius: 36px; transform: translate(-50%,-50%) rotateX(var(--tilt-y,0deg)) rotateY(var(--tilt-x,0deg)) rotate(-8deg); background: linear-gradient(140deg,var(--surface),var(--accent-soft)); box-shadow: 20px 35px 65px #10362718, inset 0 0 60px var(--blue-soft); }
 .blueprint-grid::before { inset: 8%; border-radius: 50%; }
 .blueprint-grid::after { inset: 23%; border-radius: 50%; }
-.blueprint-hint { top: -3%; width: max-content; max-width: 100%; font-size: .58rem; }
+.blueprint-hint { top: auto; bottom: calc(100% + 56px); z-index: 3; width: max-content; max-width: 100%; font-size: .58rem; color: var(--ink); background: var(--surface-solid); }
 .assembly-depth { position: absolute; inset: 1% -4% 9%; transform-style: preserve-3d; transform: rotateX(var(--tilt-y,0deg)) rotateY(var(--tilt-x,0deg)) translateZ(65px) translateY(var(--assembly-lift,0px)) scale(var(--assembly-scale,1)); transition: transform 180ms ease-out; pointer-events: none; }
 .assembly-image { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(16px 32px 18px #0b302c44); animation: assembly-float 7s ease-in-out infinite; transition: filter 240ms ease; }
 .blueprint:focus-within .assembly-image { filter: drop-shadow(24px 44px 22px #0b302c77) drop-shadow(0 0 14px var(--accent-soft)); }
@@ -2404,6 +2404,48 @@ html[data-motion="paused"] .assembly-stage img { animation: none; }
     transition: none !important;
   }
 }
+/* Motion is scoped to the visible page and always obeys the pause control. */
+@keyframes visual-drift { 0%,100% { translate: 0 0; } 50% { translate: 0 -8px; } }
+html[data-motion="running"] .app-view.is-active .blueprint .node-card { animation: visual-drift 5s ease-in-out infinite; }
+.blueprint .node-2 { animation-delay: -1.25s !important; }
+.blueprint .node-3 { animation-delay: -2.5s !important; }
+.blueprint .node-4 { animation-delay: -3.75s !important; }
+.blueprint .node-card:is(:hover,:focus-visible) { animation-play-state: paused !important; box-shadow: 0 26px 40px #10362744, 0 4px 0 var(--accent-soft); border-color: var(--accent); }
+html[data-motion="running"] .app-view.is-active :is(.page-image,.work-image-grid img) { animation: visual-drift 7s ease-in-out infinite; }
+.work-image-grid a:nth-child(even) img { animation-delay: -3.5s !important; }
+html[data-motion="running"] .app-view.is-active .reveal { transition: opacity 600ms ease var(--reveal-delay,0ms), translate 600ms ease var(--reveal-delay,0ms), transform 300ms ease, box-shadow 300ms ease, border-color 300ms ease; }
+html[data-motion="running"] .app-view.is-active .reveal:not(.is-visible) { opacity: 0; translate: 0 18px; }
+html[data-motion="running"] .app-view.is-active .reveal.is-visible { opacity: 1; translate: 0 0; }
+.button { transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease; }
+html[data-motion="running"] .button:is(:hover,:focus-visible) { transform: translateY(-3px); box-shadow: 0 12px 24px #10362726; }
+@media print { .reveal { opacity: 1 !important; translate: none !important; } }
+
+.blueprint { margin-bottom: 64px; }
+.hero-model-launch { position: absolute; bottom: -64px; left: 50%; translate: -50% 0; z-index: 3; white-space: nowrap; }
+.model-launch { margin-top: 16px; color: var(--accent); background: var(--surface-solid); border-color: var(--line-strong); }
+.work-image-grid > .model-launch { grid-column: 1/-1; }
+.case-image .model-launch { width: 100%; }
+.assembly-copy .model-launch { display: flex; width: 100%; }
+#model-explorer { width: min(1040px,94vw); max-height: 94dvh; overflow: auto; border: 1px solid var(--line-strong); border-radius: 24px; padding: 26px; background: var(--surface-solid); color: var(--ink); box-shadow: 0 30px 100px #001d1966; }
+#model-explorer::backdrop { background: #001d19a6; backdrop-filter: blur(5px); }
+.model-dialog-head { display:flex; justify-content:space-between; align-items:start; gap:18px; }
+.model-dialog-head h2 { font-size:clamp(1.4rem,3vw,2.3rem); line-height:1.1; }
+.model-dialog-head .eyebrow { margin-bottom:8px; }
+.model-select-label { display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin:20px 0 10px; font-weight:700; font-size:.8rem; }
+#model-select { font:inherit; padding:10px; border:1px solid var(--line-strong); border-radius:10px; background:var(--surface); color:var(--ink); max-width:100%; }
+.model-viewport { height:clamp(280px,48vh,480px); margin-top:16px; border-radius:16px; overflow:hidden; background:#edf5f0; }
+.model-viewport canvas { display:block; touch-action:none; }
+.model-fallback { height:100%; width:100%; object-fit:contain; }
+.model-fallback[hidden] { display:none; }
+#model-status,#model-description,#model-parts,.model-note { font-size:.76rem; color:var(--muted); line-height:1.6; margin-top:12px; }
+.model-toolbar { display:flex; flex-wrap:wrap; gap:8px; margin:14px 0; }
+.model-toolbar .button { min-height:38px; padding:8px 12px; font-size:.7rem; }
+.model-toolbar [aria-pressed="true"] { color:var(--surface-solid); background:var(--accent); }
+.model-spread-label { display:flex; justify-content:space-between; font-weight:700; font-size:.8rem; }
+#model-spread { width:100%; margin:14px 0; accent-color:var(--accent); cursor:pointer; }
+@media(max-width:600px) { #model-explorer { padding:18px; } .model-dialog-head .button { padding:8px; min-width:64px; } }
+@media print { #model-explorer,.model-launch { display:none !important; } }
+
 </style>
 </head>
 <body>
@@ -2450,7 +2492,7 @@ html[data-motion="paused"] .assembly-stage img { animation: none; }
         </div>
 
         <div class="blueprint reveal" aria-label="Interactive engineering concept: parameters, CAD, validation, and production" data-blueprint>
-          <div class="blueprint-hint" aria-hidden="true">Design. Automate. Bring it to life.</div>
+          <button type="button" class="button model-launch hero-model-launch" data-model="pall">Explore interactive 3D ↗</button><div class="blueprint-hint" aria-hidden="true">Design. Automate. Bring it to life.</div>
           <div class="blueprint-grid" aria-hidden="true"></div>
           <div class="assembly-depth"><img class="assembly-image" src="/assets/exploded-pall-f4a1c4475bcc.webp" width="1200" height="1200" fetchpriority="high" decoding="async" alt="Concept illustration of an exploded filtration pressure vessel with separated shell, filter elements and lid"></div><div class="scene-caption"><span data-blueprint-label>INPUTS</span><span>Reference concept artwork</span></div>
           <button class="node-card node-1 is-active" type="button" data-engineering-node data-stage="INPUTS" aria-pressed="true"><strong>Inputs</strong><small>Parameters & intent</small></button>
@@ -2595,7 +2637,7 @@ html[data-motion="paused"] .assembly-stage img { animation: none; }
         <p>Explore projects spanning VB.NET CAD configurators, 12 kV/36 kV switchgear development, CFD-backed thermal research, and connected energy systems. Each card opens a detailed case study.</p>
         <div class="page-kicker">Four detailed case studies · Professional and academic work</div>
       </div>
-    <div class="work-image-grid" aria-label="Explore the four project case studies"><a href="#project-cad-configurator" data-app-link><img width="1200" height="1200" src="/assets/exploded-pall-f4a1c4475bcc.webp" alt="Exploded filtration housing concept" loading="lazy" decoding="async"><span>CAD automation ↗</span></a><a href="#project-switchgear" data-app-link><img width="1200" height="1200" src="/assets/exploded-rmu-528c114f1b46.webp" alt="Exploded RMU concept" loading="lazy" decoding="async"><span>Switchgear design ↗</span></a><a href="#project-fin-cfd" data-app-link><img width="960" height="960" src="/assets/concept-thermal-ba0470c6fb90.webp" alt="Heat sink and airflow concept" loading="lazy" decoding="async"><span>Thermal research ↗</span></a><a href="#project-iot-energy" data-app-link><img width="960" height="960" src="/assets/concept-iot-fb2867e5d9af.webp" alt="Connected energy monitoring concept" loading="lazy" decoding="async"><span>IoT systems ↗</span></a><small>Reference concept illustrations</small></div></header>
+    <div class="work-image-grid" aria-label="Explore the four project case studies"><a href="#project-cad-configurator" data-app-link><img width="1200" height="1200" src="/assets/exploded-pall-f4a1c4475bcc.webp" alt="Exploded filtration housing concept" loading="lazy" decoding="async"><span>CAD automation ↗</span></a><a href="#project-switchgear" data-app-link><img width="1200" height="1200" src="/assets/exploded-rmu-528c114f1b46.webp" alt="Exploded RMU concept" loading="lazy" decoding="async"><span>Switchgear design ↗</span></a><a href="#project-fin-cfd" data-app-link><img width="960" height="960" src="/assets/concept-thermal-ba0470c6fb90.webp" alt="Heat sink and airflow concept" loading="lazy" decoding="async"><span>Thermal research ↗</span></a><a href="#project-iot-energy" data-app-link><img width="960" height="960" src="/assets/concept-iot-fb2867e5d9af.webp" alt="Connected energy monitoring concept" loading="lazy" decoding="async"><span>IoT systems ↗</span></a><small>Reference concept illustrations</small><button type="button" class="button model-launch " data-model="pall">Explore interactive 3D ↗</button></div></header>
 
     <section class="section-tight" aria-label="Project collection">
       <div class="container">
@@ -2650,7 +2692,7 @@ html[data-motion="paused"] .assembly-stage img { animation: none; }
 <section class="app-view" id="experience" data-route="experience">
 <header class="page-hero visual-hero container reveal">
       <div><p class="eyebrow">Experience</p><h1>Engineering across products, production, and automation.</h1><p>My path combines CAD configurators, medium-voltage switchgear, product R&D, testing support, manufacturing documentation, industrial training, and technical education.</p><div class="page-kicker">Pall Corporation · CG Power · Engineering education</div></div>
-    <figure class="page-image photo-feature"><a href="/assets/image-fbac2c49ba0c.jpg" target="_blank" rel="noreferrer" aria-label="Open image: CNC workshop practical training"><img width="1400" height="647" src="/assets/image-fbac2c49ba0c.jpg" alt="CNC workshop practical training" loading="lazy" decoding="async"></a><figcaption>CNC workshop · Hands-on engineering training</figcaption></figure></header><section class="section-tight assembly-gallery"><div class="container"><div class="section-head reveal"><div><p class="eyebrow">Inside the assembly</p><h2>Engineering, from the inside out.</h2></div><p>Explore the product context through exploded views and public manufacturer references.</p></div><div class="assembly-grid" style="--assembly-columns:3"><article class="assembly-card reveal"><div class="assembly-card-top"><span>CG Power</span><span>Exploded concept</span></div><a class="assembly-stage" href="/assets/exploded-rmu-528c114f1b46.webp" target="_blank" rel="noreferrer" aria-label="Open Ring main unit exploded concept"><img src="/assets/exploded-rmu-528c114f1b46.webp" width="1200" height="1200" alt="Illustrative exploded view: Ring main unit" loading="lazy" decoding="async"></a><div class="assembly-copy"><h3>Ring main unit</h3><p>Enclosure, tank, operating mechanisms and cable access, separated to show the assembly layers.</p><a class="assembly-source" href="https://www.cgglobal.com/products/ring-main-unit" target="_blank" rel="noreferrer">CG Power · RMU product reference ↗</a><details class="assembly-reference"><summary>View original product photo</summary><a href="https://www.cgglobal.com/products/ring-main-unit" target="_blank" rel="noreferrer"><img src="/assets/reference-rmu-8a88ea2c3ded.webp" width="370" height="424" alt="Official CG Power Ring main unit product photograph" loading="lazy" decoding="async"></a><small>Product photograph © CG Power and Industrial Solutions Ltd.</small></details></div></article><article class="assembly-card reveal"><div class="assembly-card-top"><span>CG Power</span><span>Exploded concept</span></div><a class="assembly-stage" href="/assets/exploded-gis-74f4374053fb.webp" target="_blank" rel="noreferrer" aria-label="Open Gas-insulated switchgear exploded concept"><img src="/assets/exploded-gis-74f4374053fb.webp" width="1200" height="1200" alt="Illustrative exploded view: Gas-insulated switchgear" loading="lazy" decoding="async"></a><div class="assembly-copy"><h3>Gas-insulated switchgear</h3><p>A single GIS bay explored through its control compartment, sealed tank, mechanism and front panels.</p><a class="assembly-source" href="https://www.cgglobal.com/products/gis-switchgear" target="_blank" rel="noreferrer">CG Power · GIS product reference ↗</a><details class="assembly-reference"><summary>View original product photo</summary><a href="https://www.cgglobal.com/products/gis-switchgear" target="_blank" rel="noreferrer"><img src="/assets/reference-gis-c6de17cf0de4.webp" width="1000" height="667" alt="Official CG Power Gas-insulated switchgear product photograph" loading="lazy" decoding="async"></a><small>Product photograph © CG Power and Industrial Solutions Ltd.</small></details></div></article><article class="assembly-card reveal"><div class="assembly-card-top"><span>Pall · Filtration</span><span>Exploded concept</span></div><a class="assembly-stage" href="/assets/exploded-pall-f4a1c4475bcc.webp" target="_blank" rel="noreferrer" aria-label="Open Pressure vessel & filter housing exploded concept"><img src="/assets/exploded-pall-f4a1c4475bcc.webp" width="1200" height="1200" alt="Illustrative exploded view: Pressure vessel & filter housing" loading="lazy" decoding="async"></a><div class="assembly-copy"><h3>Pressure vessel & filter housing</h3><p>A multi-cartridge housing concept showing the shell, filter elements, tube sheet, hold-down plate and closure.</p><a class="assembly-source" href="https://www.pall.com/content/dam/pall/power-%26-utilities/literature-library/non-gated/redirects/PowerGeneration_Catalog2.pdf#page=18" target="_blank" rel="noreferrer">Pall · Industrial Housing Designs, p. 10 ↗</a></div></article></div><p class="assembly-disclosure">Reference concept illustrations informed by publicly available product information. Sources are linked above. Simplified internals; not manufacturer assembly drawings or evidence of personal design ownership.</p></div></section>
+    <figure class="page-image photo-feature"><a href="/assets/image-fbac2c49ba0c.jpg" target="_blank" rel="noreferrer" aria-label="Open image: CNC workshop practical training"><img width="1400" height="647" src="/assets/image-fbac2c49ba0c.jpg" alt="CNC workshop practical training" loading="lazy" decoding="async"></a><figcaption>CNC workshop · Hands-on engineering training</figcaption></figure></header><section class="section-tight assembly-gallery"><div class="container"><div class="section-head reveal"><div><p class="eyebrow">Inside the assembly</p><h2>Engineering, from the inside out.</h2></div><p>Explore the product context through exploded views and public manufacturer references.</p></div><div class="assembly-grid" style="--assembly-columns:3"><article class="assembly-card reveal"><div class="assembly-card-top"><span>CG Power</span><span>Exploded concept</span></div><a class="assembly-stage" href="/assets/exploded-rmu-528c114f1b46.webp" target="_blank" rel="noreferrer" aria-label="Open Ring main unit exploded concept"><img src="/assets/exploded-rmu-528c114f1b46.webp" width="1200" height="1200" alt="Illustrative exploded view: Ring main unit" loading="lazy" decoding="async"></a><div class="assembly-copy"><h3>Ring main unit</h3><p>Enclosure, tank, operating mechanisms and cable access, separated to show the assembly layers.</p><button type="button" class="button model-launch " data-model="rmu">Explore interactive 3D ↗</button><a class="assembly-source" href="https://www.cgglobal.com/products/ring-main-unit" target="_blank" rel="noreferrer">CG Power · RMU product reference ↗</a><details class="assembly-reference"><summary>View original product photo</summary><a href="https://www.cgglobal.com/products/ring-main-unit" target="_blank" rel="noreferrer"><img src="/assets/reference-rmu-8a88ea2c3ded.webp" width="370" height="424" alt="Official CG Power Ring main unit product photograph" loading="lazy" decoding="async"></a><small>Product photograph © CG Power and Industrial Solutions Ltd.</small></details></div></article><article class="assembly-card reveal"><div class="assembly-card-top"><span>CG Power</span><span>Exploded concept</span></div><a class="assembly-stage" href="/assets/exploded-gis-74f4374053fb.webp" target="_blank" rel="noreferrer" aria-label="Open Gas-insulated switchgear exploded concept"><img src="/assets/exploded-gis-74f4374053fb.webp" width="1200" height="1200" alt="Illustrative exploded view: Gas-insulated switchgear" loading="lazy" decoding="async"></a><div class="assembly-copy"><h3>Gas-insulated switchgear</h3><p>A single GIS bay explored through its control compartment, sealed tank, mechanism and front panels.</p><button type="button" class="button model-launch " data-model="gis">Explore interactive 3D ↗</button><a class="assembly-source" href="https://www.cgglobal.com/products/gis-switchgear" target="_blank" rel="noreferrer">CG Power · GIS product reference ↗</a><details class="assembly-reference"><summary>View original product photo</summary><a href="https://www.cgglobal.com/products/gis-switchgear" target="_blank" rel="noreferrer"><img src="/assets/reference-gis-c6de17cf0de4.webp" width="1000" height="667" alt="Official CG Power Gas-insulated switchgear product photograph" loading="lazy" decoding="async"></a><small>Product photograph © CG Power and Industrial Solutions Ltd.</small></details></div></article><article class="assembly-card reveal"><div class="assembly-card-top"><span>Pall · Filtration</span><span>Exploded concept</span></div><a class="assembly-stage" href="/assets/exploded-pall-f4a1c4475bcc.webp" target="_blank" rel="noreferrer" aria-label="Open Pressure vessel & filter housing exploded concept"><img src="/assets/exploded-pall-f4a1c4475bcc.webp" width="1200" height="1200" alt="Illustrative exploded view: Pressure vessel & filter housing" loading="lazy" decoding="async"></a><div class="assembly-copy"><h3>Pressure vessel & filter housing</h3><p>A multi-cartridge housing concept showing the shell, filter elements, tube sheet, hold-down plate and closure.</p><button type="button" class="button model-launch " data-model="pall">Explore interactive 3D ↗</button><a class="assembly-source" href="https://www.pall.com/content/dam/pall/power-%26-utilities/literature-library/non-gated/redirects/PowerGeneration_Catalog2.pdf#page=18" target="_blank" rel="noreferrer">Pall · Industrial Housing Designs, p. 10 ↗</a></div></article></div><p class="assembly-disclosure">Reference concept illustrations informed by publicly available product information. Sources are linked above. Simplified internals; not manufacturer assembly drawings or evidence of personal design ownership.</p></div></section>
 
     <section class="section-tight" aria-labelledby="career-title">
       <div class="container">
@@ -2940,8 +2982,8 @@ html[data-motion="paused"] .assembly-stage img { animation: none; }
 <section class="app-view" id="project-cad-configurator" data-route="project-cad-configurator">
 <header class="case-hero container reveal">
       <div><p class="eyebrow">Automation case study</p><h1>Parametric CAD & housing configurators.</h1><p>Supporting custom automation tools that convert simple input parameters into ready-to-use engineering models while improving data flow and design-cycle efficiency.</p><div class="button-row" style="margin-top: 28px"><a class="button ghost" href="#work" data-app-link>← Back to all work</a></div></div>
-      <figure class="page-image case-image"><a href="/assets/exploded-pall-f4a1c4475bcc.webp" target="_blank" rel="noreferrer" aria-label="Open image: Exploded filtration housing concept"><img width="1200" height="1200" src="/assets/exploded-pall-f4a1c4475bcc.webp" alt="Exploded filtration housing concept" loading="lazy" decoding="async"></a><figcaption>Reference concept illustration · Open image ↗</figcaption></figure><div class="case-facts"><div class="case-fact"><span>Context</span><strong>Pall Corporation</strong></div><div class="case-fact"><span>Role</span><strong>Mechanical Design Engineer</strong></div><div class="case-fact"><span>Focus</span><strong>VB.NET · VAVE · Data</strong></div></div>
-    </header><section class="section-tight assembly-gallery"><div class="container"><div class="section-head reveal"><div><p class="eyebrow">Inside the assembly</p><h2>Inside a filtration pressure vessel.</h2></div><p>Explore the product context through exploded views and public manufacturer references.</p></div><div class="assembly-grid" style="--assembly-columns:1"><article class="assembly-card reveal"><div class="assembly-card-top"><span>Pall · Filtration</span><span>Exploded concept</span></div><a class="assembly-stage" href="/assets/exploded-pall-f4a1c4475bcc.webp" target="_blank" rel="noreferrer" aria-label="Open Pressure vessel & filter housing exploded concept"><img src="/assets/exploded-pall-f4a1c4475bcc.webp" width="1200" height="1200" alt="Illustrative exploded view: Pressure vessel & filter housing" loading="lazy" decoding="async"></a><div class="assembly-copy"><h3>Pressure vessel & filter housing</h3><p>A multi-cartridge housing concept showing the shell, filter elements, tube sheet, hold-down plate and closure.</p><a class="assembly-source" href="https://www.pall.com/content/dam/pall/power-%26-utilities/literature-library/non-gated/redirects/PowerGeneration_Catalog2.pdf#page=18" target="_blank" rel="noreferrer">Pall · Industrial Housing Designs, p. 10 ↗</a></div></article></div><p class="assembly-disclosure">Reference concept illustrations informed by publicly available product information. Sources are linked above. Simplified internals; not manufacturer assembly drawings or evidence of personal design ownership.</p></div></section>
+      <figure class="page-image case-image"><a href="/assets/exploded-pall-f4a1c4475bcc.webp" target="_blank" rel="noreferrer" aria-label="Open image: Exploded filtration housing concept"><img width="1200" height="1200" src="/assets/exploded-pall-f4a1c4475bcc.webp" alt="Exploded filtration housing concept" loading="lazy" decoding="async"></a><figcaption>Reference concept illustration · Open image ↗</figcaption><button type="button" class="button model-launch " data-model="pall">Explore interactive 3D ↗</button></figure><div class="case-facts"><div class="case-fact"><span>Context</span><strong>Pall Corporation</strong></div><div class="case-fact"><span>Role</span><strong>Mechanical Design Engineer</strong></div><div class="case-fact"><span>Focus</span><strong>VB.NET · VAVE · Data</strong></div></div>
+    </header><section class="section-tight assembly-gallery"><div class="container"><div class="section-head reveal"><div><p class="eyebrow">Inside the assembly</p><h2>Inside a filtration pressure vessel.</h2></div><p>Explore the product context through exploded views and public manufacturer references.</p></div><div class="assembly-grid" style="--assembly-columns:1"><article class="assembly-card reveal"><div class="assembly-card-top"><span>Pall · Filtration</span><span>Exploded concept</span></div><a class="assembly-stage" href="/assets/exploded-pall-f4a1c4475bcc.webp" target="_blank" rel="noreferrer" aria-label="Open Pressure vessel & filter housing exploded concept"><img src="/assets/exploded-pall-f4a1c4475bcc.webp" width="1200" height="1200" alt="Illustrative exploded view: Pressure vessel & filter housing" loading="lazy" decoding="async"></a><div class="assembly-copy"><h3>Pressure vessel & filter housing</h3><p>A multi-cartridge housing concept showing the shell, filter elements, tube sheet, hold-down plate and closure.</p><button type="button" class="button model-launch " data-model="pall">Explore interactive 3D ↗</button><a class="assembly-source" href="https://www.pall.com/content/dam/pall/power-%26-utilities/literature-library/non-gated/redirects/PowerGeneration_Catalog2.pdf#page=18" target="_blank" rel="noreferrer">Pall · Industrial Housing Designs, p. 10 ↗</a></div></article></div><p class="assembly-disclosure">Reference concept illustrations informed by publicly available product information. Sources are linked above. Simplified internals; not manufacturer assembly drawings or evidence of personal design ownership.</p></div></section>
 
     <section class="section-tight">
       <div class="container case-layout">
@@ -2960,8 +3002,8 @@ html[data-motion="paused"] .assembly-stage img { animation: none; }
 <section class="app-view" id="project-switchgear" data-route="project-switchgear">
 <header class="case-hero container reveal">
       <div><p class="eyebrow">Product-design case study</p><h1>12 kV & 36 kV switchgear development.</h1><p>Mechanical product-development work across RMUs, AIS breakers, hybrid modules, sheet-metal structures, mechanisms, interlocks, prototyping, IEC testing support, and manufacturing release.</p><div class="button-row" style="margin-top: 28px"><a class="button ghost" href="#work" data-app-link>← Back to all work</a></div></div>
-      <figure class="page-image case-image"><a href="/assets/exploded-rmu-528c114f1b46.webp" target="_blank" rel="noreferrer" aria-label="Open image: Exploded RMU concept"><img width="1200" height="1200" src="/assets/exploded-rmu-528c114f1b46.webp" alt="Exploded RMU concept" loading="lazy" decoding="async"></a><figcaption>Reference concept illustration · Open image ↗</figcaption></figure><div class="case-facts"><div class="case-fact"><span>Context</span><strong>CG Power</strong></div><div class="case-fact"><span>Role</span><strong>Embedded Product Designer (R&D)</strong></div><div class="case-fact"><span>Portfolio</span><strong>12 kV · 36 kV · 9 variants</strong></div></div>
-    </header><section class="section-tight assembly-gallery"><div class="container"><div class="section-head reveal"><div><p class="eyebrow">Inside the assembly</p><h2>RMU & GIS: explore the layers.</h2></div><p>Explore the product context through exploded views and public manufacturer references.</p></div><div class="assembly-grid" style="--assembly-columns:2"><article class="assembly-card reveal"><div class="assembly-card-top"><span>CG Power</span><span>Exploded concept</span></div><a class="assembly-stage" href="/assets/exploded-rmu-528c114f1b46.webp" target="_blank" rel="noreferrer" aria-label="Open Ring main unit exploded concept"><img src="/assets/exploded-rmu-528c114f1b46.webp" width="1200" height="1200" alt="Illustrative exploded view: Ring main unit" loading="lazy" decoding="async"></a><div class="assembly-copy"><h3>Ring main unit</h3><p>Enclosure, tank, operating mechanisms and cable access, separated to show the assembly layers.</p><a class="assembly-source" href="https://www.cgglobal.com/products/ring-main-unit" target="_blank" rel="noreferrer">CG Power · RMU product reference ↗</a><details class="assembly-reference"><summary>View original product photo</summary><a href="https://www.cgglobal.com/products/ring-main-unit" target="_blank" rel="noreferrer"><img src="/assets/reference-rmu-8a88ea2c3ded.webp" width="370" height="424" alt="Official CG Power Ring main unit product photograph" loading="lazy" decoding="async"></a><small>Product photograph © CG Power and Industrial Solutions Ltd.</small></details></div></article><article class="assembly-card reveal"><div class="assembly-card-top"><span>CG Power</span><span>Exploded concept</span></div><a class="assembly-stage" href="/assets/exploded-gis-74f4374053fb.webp" target="_blank" rel="noreferrer" aria-label="Open Gas-insulated switchgear exploded concept"><img src="/assets/exploded-gis-74f4374053fb.webp" width="1200" height="1200" alt="Illustrative exploded view: Gas-insulated switchgear" loading="lazy" decoding="async"></a><div class="assembly-copy"><h3>Gas-insulated switchgear</h3><p>A single GIS bay explored through its control compartment, sealed tank, mechanism and front panels.</p><a class="assembly-source" href="https://www.cgglobal.com/products/gis-switchgear" target="_blank" rel="noreferrer">CG Power · GIS product reference ↗</a><details class="assembly-reference"><summary>View original product photo</summary><a href="https://www.cgglobal.com/products/gis-switchgear" target="_blank" rel="noreferrer"><img src="/assets/reference-gis-c6de17cf0de4.webp" width="1000" height="667" alt="Official CG Power Gas-insulated switchgear product photograph" loading="lazy" decoding="async"></a><small>Product photograph © CG Power and Industrial Solutions Ltd.</small></details></div></article></div><p class="assembly-disclosure">Reference concept illustrations informed by publicly available product information. Sources are linked above. Simplified internals; not manufacturer assembly drawings or evidence of personal design ownership.</p></div></section>
+      <figure class="page-image case-image"><a href="/assets/exploded-rmu-528c114f1b46.webp" target="_blank" rel="noreferrer" aria-label="Open image: Exploded RMU concept"><img width="1200" height="1200" src="/assets/exploded-rmu-528c114f1b46.webp" alt="Exploded RMU concept" loading="lazy" decoding="async"></a><figcaption>Reference concept illustration · Open image ↗</figcaption><button type="button" class="button model-launch " data-model="rmu">Explore interactive 3D ↗</button></figure><div class="case-facts"><div class="case-fact"><span>Context</span><strong>CG Power</strong></div><div class="case-fact"><span>Role</span><strong>Embedded Product Designer (R&D)</strong></div><div class="case-fact"><span>Portfolio</span><strong>12 kV · 36 kV · 9 variants</strong></div></div>
+    </header><section class="section-tight assembly-gallery"><div class="container"><div class="section-head reveal"><div><p class="eyebrow">Inside the assembly</p><h2>RMU & GIS: explore the layers.</h2></div><p>Explore the product context through exploded views and public manufacturer references.</p></div><div class="assembly-grid" style="--assembly-columns:2"><article class="assembly-card reveal"><div class="assembly-card-top"><span>CG Power</span><span>Exploded concept</span></div><a class="assembly-stage" href="/assets/exploded-rmu-528c114f1b46.webp" target="_blank" rel="noreferrer" aria-label="Open Ring main unit exploded concept"><img src="/assets/exploded-rmu-528c114f1b46.webp" width="1200" height="1200" alt="Illustrative exploded view: Ring main unit" loading="lazy" decoding="async"></a><div class="assembly-copy"><h3>Ring main unit</h3><p>Enclosure, tank, operating mechanisms and cable access, separated to show the assembly layers.</p><button type="button" class="button model-launch " data-model="rmu">Explore interactive 3D ↗</button><a class="assembly-source" href="https://www.cgglobal.com/products/ring-main-unit" target="_blank" rel="noreferrer">CG Power · RMU product reference ↗</a><details class="assembly-reference"><summary>View original product photo</summary><a href="https://www.cgglobal.com/products/ring-main-unit" target="_blank" rel="noreferrer"><img src="/assets/reference-rmu-8a88ea2c3ded.webp" width="370" height="424" alt="Official CG Power Ring main unit product photograph" loading="lazy" decoding="async"></a><small>Product photograph © CG Power and Industrial Solutions Ltd.</small></details></div></article><article class="assembly-card reveal"><div class="assembly-card-top"><span>CG Power</span><span>Exploded concept</span></div><a class="assembly-stage" href="/assets/exploded-gis-74f4374053fb.webp" target="_blank" rel="noreferrer" aria-label="Open Gas-insulated switchgear exploded concept"><img src="/assets/exploded-gis-74f4374053fb.webp" width="1200" height="1200" alt="Illustrative exploded view: Gas-insulated switchgear" loading="lazy" decoding="async"></a><div class="assembly-copy"><h3>Gas-insulated switchgear</h3><p>A single GIS bay explored through its control compartment, sealed tank, mechanism and front panels.</p><button type="button" class="button model-launch " data-model="gis">Explore interactive 3D ↗</button><a class="assembly-source" href="https://www.cgglobal.com/products/gis-switchgear" target="_blank" rel="noreferrer">CG Power · GIS product reference ↗</a><details class="assembly-reference"><summary>View original product photo</summary><a href="https://www.cgglobal.com/products/gis-switchgear" target="_blank" rel="noreferrer"><img src="/assets/reference-gis-c6de17cf0de4.webp" width="1000" height="667" alt="Official CG Power Gas-insulated switchgear product photograph" loading="lazy" decoding="async"></a><small>Product photograph © CG Power and Industrial Solutions Ltd.</small></details></div></article></div><p class="assembly-disclosure">Reference concept illustrations informed by publicly available product information. Sources are linked above. Simplified internals; not manufacturer assembly drawings or evidence of personal design ownership.</p></div></section>
 
     <section class="section-tight"><div class="container case-layout">
       
@@ -2979,7 +3021,7 @@ html[data-motion="paused"] .assembly-stage img { animation: none; }
 <section class="app-view" id="project-fin-cfd" data-route="project-fin-cfd">
 <header class="case-hero container reveal">
       <div><p class="eyebrow">Research case study</p><h1>Design, fabrication & CFD analysis of fins.</h1><p>A mechanical-engineering research project combining geometry development, Ansys Fluent analysis, fabrication, experimentation, and published findings.</p><div class="button-row" style="margin-top: 28px"><a class="button ghost" href="#work" data-app-link>← Back to all work</a></div></div>
-      <figure class="page-image case-image"><a href="/assets/concept-thermal-ba0470c6fb90.webp" target="_blank" rel="noreferrer" aria-label="Open image: Heat sink and airflow concept"><img width="960" height="960" src="/assets/concept-thermal-ba0470c6fb90.webp" alt="Heat sink and airflow concept" loading="lazy" decoding="async"></a><figcaption>Reference concept illustration · Open image ↗</figcaption></figure><div class="case-facts"><div class="case-fact"><span>Project</span><strong>Oct 2022 – May 2023</strong></div><div class="case-fact"><span>Result</span><strong>15% improvement</strong></div><div class="case-fact"><span>Tools</span><strong>Inventor · Ansys Workbench</strong></div></div>
+      <figure class="page-image case-image"><a href="/assets/concept-thermal-ba0470c6fb90.webp" target="_blank" rel="noreferrer" aria-label="Open image: Heat sink and airflow concept"><img width="960" height="960" src="/assets/concept-thermal-ba0470c6fb90.webp" alt="Heat sink and airflow concept" loading="lazy" decoding="async"></a><figcaption>Reference concept illustration · Open image ↗</figcaption><button type="button" class="button model-launch " data-model="thermal">Explore interactive 3D ↗</button></figure><div class="case-facts"><div class="case-fact"><span>Project</span><strong>Oct 2022 – May 2023</strong></div><div class="case-fact"><span>Result</span><strong>15% improvement</strong></div><div class="case-fact"><span>Tools</span><strong>Inventor · Ansys Workbench</strong></div></div>
     </header>
 
     <section class="section-tight"><div class="container case-layout">
@@ -2998,7 +3040,7 @@ html[data-motion="paused"] .assembly-stage img { animation: none; }
 <section class="app-view" id="project-iot-energy" data-route="project-iot-energy">
 <header class="case-hero container reveal">
       <div><p class="eyebrow">IoT case study</p><h1>IoT-based energy management system.</h1><p>A connected hardware-and-software project designed to reduce energy-evaluation time and present information through real-time graphical reports.</p><div class="button-row" style="margin-top: 28px"><a class="button ghost" href="#work" data-app-link>← Back to all work</a></div></div>
-      <figure class="page-image case-image"><a href="/assets/concept-iot-fb2867e5d9af.webp" target="_blank" rel="noreferrer" aria-label="Open image: Connected energy monitoring concept"><img width="960" height="960" src="/assets/concept-iot-fb2867e5d9af.webp" alt="Connected energy monitoring concept" loading="lazy" decoding="async"></a><figcaption>Reference concept illustration · Open image ↗</figcaption></figure><div class="case-facts"><div class="case-fact"><span>Date</span><strong>June 2022</strong></div><div class="case-fact"><span>Result</span><strong>30% faster evaluation</strong></div><div class="case-fact"><span>Tools</span><strong>Arduino · Android · Python</strong></div></div>
+      <figure class="page-image case-image"><a href="/assets/concept-iot-fb2867e5d9af.webp" target="_blank" rel="noreferrer" aria-label="Open image: Connected energy monitoring concept"><img width="960" height="960" src="/assets/concept-iot-fb2867e5d9af.webp" alt="Connected energy monitoring concept" loading="lazy" decoding="async"></a><figcaption>Reference concept illustration · Open image ↗</figcaption><button type="button" class="button model-launch " data-model="iot">Explore interactive 3D ↗</button></figure><div class="case-facts"><div class="case-fact"><span>Date</span><strong>June 2022</strong></div><div class="case-fact"><span>Result</span><strong>30% faster evaluation</strong></div><div class="case-fact"><span>Tools</span><strong>Arduino · Android · Python</strong></div></div>
     </header>
 
     <section class="section-tight"><div class="container case-layout">
@@ -3015,6 +3057,16 @@ html[data-motion="paused"] .assembly-stage img { animation: none; }
 </section>
   </main>
 
+<dialog id="model-explorer" aria-labelledby="model-title">
+ <div class="model-dialog-head"><div><p class="eyebrow">Interactive engineering lab</p><h2 id="model-title">Explore a concept assembly</h2></div><button class="button" type="button" data-model-close aria-label="Close 3D explorer">Close ×</button></div>
+ <label class="model-select-label">Choose model <select id="model-select"><option value="pall">Pressure vessel / filter housing</option><option value="rmu">Ring main unit</option><option value="gis">GIS switchgear</option><option value="thermal">Finned heat sink</option><option value="iot">Energy monitoring module</option></select></label>
+ <p id="model-description"></p>
+ <div class="model-viewport"><img class="model-fallback" src="/assets/exploded-pall-f4a1c4475bcc.webp" alt="Pressure vessel exploded concept preview" width="1200" height="1200"></div>
+ <p id="model-status" role="status">Loading interactive model…</p>
+ <div class="model-toolbar"><button class="button" data-model-view="0">Assembled</button><button class="button" data-model-view="100">Exploded</button><button class="button" data-model-turn="-1" aria-label="Rotate model left">↶ Rotate</button><button class="button" data-model-turn="1" aria-label="Rotate model right">Rotate ↷</button><button class="button" data-model-zoom="0.85" aria-label="Zoom model in">Zoom +</button><button class="button" data-model-zoom="1.18" aria-label="Zoom model out">Zoom −</button><button class="button" data-model-wire aria-pressed="false">Wireframe</button><button class="button" data-model-reset>Reset</button></div>
+ <label class="model-spread-label" for="model-spread">Assembly separation <output id="model-spread-value">0%</output></label><input id="model-spread" type="range" min="0" max="100" value="0" step="1">
+ <p id="model-parts"></p><p class="model-note">Simplified interactive concept models, not manufacturer CAD or production drawings. Use the source-linked images for product references.</p>
+</dialog>
   <footer class="site-footer">
     <div class="footer-shell container">
       <div><span class="footer-brand">Kunal Karankal</span> · Mechanical Design & CAD Automation · <span data-year></span></div>
@@ -3110,7 +3162,9 @@ document.querySelectorAll('[data-nav]').forEach((link) => {
 });
 
 const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
-let reduceMotion = motionPreference.matches;
+let savedMotion = null;
+try { savedMotion = localStorage.getItem('kunal-portfolio-motion'); } catch {}
+let reduceMotion = savedMotion !== 'running' && motionPreference.matches;
 const motionToggle = document.querySelector('[data-motion-toggle]');
 const setMotionPaused = (paused) => {
   root.dataset.motion = paused ? 'paused' : 'running';
@@ -3118,28 +3172,28 @@ const setMotionPaused = (paused) => {
   motionToggle.setAttribute('aria-pressed', String(paused));
   if (reduceMotion) motionToggle.textContent = 'Enable motion';
 };
-setMotionPaused(reduceMotion);
+setMotionPaused(savedMotion === 'paused' || reduceMotion);
 motionToggle.addEventListener('click', () => {
   reduceMotion = false;
   setMotionPaused(root.dataset.motion !== 'paused');
+  savedMotion = root.dataset.motion;
+  try { localStorage.setItem('kunal-portfolio-motion', savedMotion); } catch {}
+  if (savedMotion === 'paused') document.querySelectorAll('.reveal').forEach(element => element.classList.add('is-visible'));
 });
 motionPreference.addEventListener('change', (event) => {
+  if (savedMotion === 'running' || savedMotion === 'paused') return;
   reduceMotion = event.matches;
   setMotionPaused(reduceMotion);
+  if (reduceMotion) document.querySelectorAll('.reveal').forEach(element => element.classList.add('is-visible'));
 });
-if (!reduceMotion && 'IntersectionObserver' in window) {
-  const observer = new IntersectionObserver((entries) => {
+const revealObserver = 'IntersectionObserver' in window ? new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         entry.target.classList.add('is-visible');
-        observer.unobserve(entry.target);
+        revealObserver.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
-} else {
-  document.querySelectorAll('.reveal').forEach((element) => element.classList.add('is-visible'));
-}
+  }, { threshold: 0.05 }) : null;
 
 const ambientOrb = document.querySelector('[data-ambient-orb]');
 if (ambientOrb && window.matchMedia('(pointer: fine)').matches && window.matchMedia('(min-width: 981px)').matches) {
@@ -3356,9 +3410,42 @@ const showAppRoute = () => {
   document.title = appRouteTitles[route];
   setMenu(false);
   window.scrollTo({ top: 0, behavior: 'auto' });
-  document.querySelectorAll('.app-view.is-active .reveal').forEach((element) => element.classList.add('is-visible'));
+  revealObserver?.disconnect();
+  document.querySelectorAll('.app-view.is-active .reveal').forEach((element, index) => {
+    element.style.setProperty('--reveal-delay', `${index % 3 * 70}ms`);
+    element.classList.toggle('is-visible', root.dataset.motion === 'paused' || !revealObserver);
+    if (root.dataset.motion === 'running' && revealObserver) revealObserver.observe(element);
+  });
   scheduleScrollProgress();
 };
+
+
+const modelDialog = document.getElementById('model-explorer');
+let modelExplorer;
+let modelRequest = 0;
+document.addEventListener('click', async (event) => {
+  const button = event.target.closest('[data-model]');
+  if (!button) return;
+  const request = ++modelRequest;
+  modelDialog.querySelectorAll('select, input, .model-toolbar button').forEach(control => control.disabled = true);
+  modelDialog.setAttribute('aria-busy', 'true');
+  modelDialog.showModal();
+  try {
+    modelExplorer ||= import('/assets/model-explorer-v1.js');
+    const explorer = await modelExplorer;
+    if (request === modelRequest && modelDialog.open) {
+      explorer.showModel(button.dataset.model);
+      modelDialog.querySelectorAll('select, input, .model-toolbar button').forEach(control => control.disabled = false);
+    }
+  } catch {
+    modelDialog.querySelector('#model-status').textContent = '3D rendering is unavailable in this browser. The detailed illustrations and source images are still available on the page.';
+    modelExplorer = null;
+  } finally {
+    if (request === modelRequest) modelDialog.setAttribute('aria-busy', 'false');
+  }
+});
+modelDialog.querySelector('[data-model-close]').addEventListener('click', () => modelDialog.close());
+modelDialog.addEventListener('close', () => { modelRequest++; });
 
 window.addEventListener('hashchange', showAppRoute);
 showAppRoute();
