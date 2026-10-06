@@ -1377,7 +1377,7 @@ p {
 .training-list {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
+  gap: 26px;
 }
 
 .record-grid {
@@ -1475,11 +1475,39 @@ p {
 }
 
 .training-item {
+  position: relative;
   min-height: 150px;
   padding: 22px;
-  background: var(--surface);
-  border: 1px solid var(--line);
+  background: linear-gradient(145deg, var(--surface-solid), var(--surface-2));
+  border: 1px solid var(--line-strong);
   border-radius: 15px;
+  box-shadow: 0 6px 0 color-mix(in srgb, var(--accent) 20%, var(--surface-solid)), 0 18px 28px #082b2326;
+}
+
+.training-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 22px;
+  right: 22px;
+  height: 3px;
+  border-radius: 0 0 3px 3px;
+  background: linear-gradient(90deg, var(--accent), var(--blue));
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .training-item:hover {
+    z-index: 1;
+    border-color: var(--accent);
+    box-shadow: 0 8px 0 color-mix(in srgb, var(--accent) 30%, var(--surface-solid)), 0 30px 42px #082b2345;
+  }
+  html[data-motion="running"] .training-item:hover {
+    transform: translateY(-10px);
+  }
+}
+
+@media print {
+  .training-item { box-shadow: none; transform: none !important; }
 }
 
 .training-item strong {
@@ -2005,7 +2033,7 @@ button.contact-link {
   .remote-banner .availability { grid-column: 1 / -1; }
 }
 
-@media (max-width: 780px) {
+@media (max-width: 980px) {
   :root { --header-height: 64px; }
   .brand-name { display: none; }
   .menu-toggle { display: grid; }
@@ -2059,6 +2087,9 @@ button.contact-link {
   .nav-links a::after { display: none; }
   .nav-links a:hover,
   .nav-links a[aria-current="page"] { background: var(--accent-soft); }
+}
+
+@media (max-width: 780px) {
   .home-hero h1 { font-size: clamp(3.35rem, 14vw, 5.5rem); }
   .project-grid,
   .education-grid,
@@ -2445,6 +2476,58 @@ html[data-motion="running"] .button:is(:hover,:focus-visible) { transform: trans
 #model-spread { width:100%; margin:14px 0; accent-color:var(--accent); cursor:pointer; }
 @media(max-width:600px) { #model-explorer { padding:18px; } .model-dialog-head .button { padding:8px; min-width:64px; } }
 @media print { #model-explorer,.model-launch { display:none !important; } }
+
+/* Touch controls stay usable without hover; artwork keeps its own proportions. */
+body:has(#model-explorer[open]) { overflow: hidden; }
+#model-explorer { overscroll-behavior: contain; }
+.model-dialog-head { position: sticky; top: -1px; z-index: 2; padding-block: 10px; background: var(--surface-solid); }
+@media (any-pointer: coarse), (max-width: 780px) {
+  .button, .motion-toggle, .nav-links a, .case-nav a, .footer-links a, .assembly-source, .assembly-reference summary { min-height: 48px; }
+  .nav-icon, .nav-icon[data-theme-toggle] { width: 48px; min-width: 48px; height: 48px; }
+  .motion-toggle { min-width: 72px; max-width: none; font-size: .7rem; }
+  .model-toolbar .button { min-width: 48px; min-height: 48px; font-size: .8rem; }
+  #model-select { min-height: 48px; font-size: 16px; }
+  #model-spread { height: 48px; margin-block: 4px; }
+  .assembly-source, .footer-links a { display: inline-flex; align-items: center; }
+  .assembly-reference summary { padding-block: 12px; }
+  .blueprint .node-card { min-height: 60px; }
+}
+@media (hover: none) {
+  html[data-motion="running"] .button:hover { transform: none; }
+  html[data-motion="running"] .button:active { transform: translateY(2px); }
+  .project-card, .work-image-grid a { box-shadow: 0 6px 0 var(--accent-soft), 0 18px 30px #082b2326; }
+  .blueprint .node-card { animation: none !important; transform: none !important; }
+  .assembly-depth { transform: none; }
+}
+@media (max-width: 600px) {
+  .blueprint { --scene-height: clamp(290px, 90vw, 440px); display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; width: 100%; min-height: 0; padding-top: var(--scene-height); margin-block: 48px 0; }
+  .blueprint-grid { top: calc(var(--scene-height) / 2); width: 88%; }
+  .assembly-depth { inset: 0 0 auto; height: var(--scene-height); transform: none; }
+  .blueprint-hint { display: block; top: -42px; bottom: auto; font-size: .54rem; }
+  .blueprint .node-card { display: block; position: static; order: 1; min-width: 0; width: 100%; padding: 12px; text-align: left; animation: none !important; transform: none !important; }
+  .blueprint .node-card strong { font-size: .8rem; }
+  .blueprint .node-card small { font-size: .68rem; }
+  .scene-caption { position: static; grid-column: 1/-1; order: 2; flex-wrap: wrap; gap: 8px; font-size: .58rem; }
+  .hero-model-launch { position: static; grid-column: 1/-1; order: 3; translate: none; margin-top: 0; white-space: normal; }
+  .training-item { min-height: 0; padding: 22px; }
+  .training-item span { font-size: .9rem; }
+  .work-image-grid img { height: auto; aspect-ratio: 1; object-fit: contain; }
+  #model-explorer { width: calc(100% - 16px); max-width: none; max-height: calc(100dvh - 16px); padding: 16px; border-radius: 18px; }
+  .model-viewport { height: auto; aspect-ratio: 1; min-height: 240px; max-height: 58svh; }
+  .model-dialog-head { gap: 12px; }
+  .model-dialog-head .eyebrow { display: none; }
+  .model-dialog-head .button { flex-shrink: 0; }
+  .model-dialog-head h2 { font-size: 1.2rem; margin-bottom: 0; }
+  .model-select-label { display: grid; gap: 8px; }
+  #model-select { width: 100%; }
+  .model-toolbar { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+@media (max-height: 560px) and (orientation: landscape) {
+  .blueprint .node-card { display: block; }
+  .model-viewport { height: 55dvh; min-height: 180px; aspect-ratio: auto; }
+  .model-dialog-head .eyebrow { display: none; }
+  .model-dialog-head h2 { font-size: 1.25rem; }
+}
 
 </style>
 </head>
