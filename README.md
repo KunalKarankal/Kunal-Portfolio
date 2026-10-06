@@ -10,7 +10,7 @@ Fast, Vercel-ready static portfolio for a Mechanical Design Engineer focused on 
 
 Certificate previews are lazy-loaded. PDF records load only when a visitor opens or downloads one.
 
-The interface includes a floating exploded-assembly hero, illustrated project cards with pointer-responsive depth, live reading progress, animated career metrics, and route transitions. AI concept illustrations are stored as content-hashed WebP assets and labeled on the page; they do not represent actual project photographs, manufacturer assembly drawings, or simulation results.
+The interface includes a floating exploded-assembly hero, illustrated project cards with pointer-responsive depth, live reading progress, animated career metrics, and route transitions. Reference concept illustrations are stored as content-hashed WebP assets and labeled on the page; they do not represent actual project photographs, manufacturer assembly drawings, or simulation results.
 
 Every case study includes a visual introduction. Experience includes an exploded-view gallery for an RMU, a GIS bay, and a filtration pressure vessel. RMU and GIS panels also expand to show the original public CG product photographs with attribution. Six academic records now have first-page previews in addition to the existing certificate images and full PDF downloads. Images have intrinsic dimensions and descriptive alternative text.
 
