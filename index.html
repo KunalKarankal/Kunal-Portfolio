@@ -2162,9 +2162,9 @@ button.contact-link {
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  *,
-  *::before,
-  *::after {
+  html:not([data-motion="running"]) *,
+  html:not([data-motion="running"]) *::before,
+  html:not([data-motion="running"]) *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
@@ -2237,6 +2237,61 @@ button.contact-link {
   .app-view > .page-hero,
   .app-view > .case-hero { min-height: auto; }
 }
+
+/* Dimensional engineering illustrations */
+.home-hero { gap: clamp(32px, 5vw, 72px); grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.home-hero h1 { font-size: clamp(3.5rem, 6.1vw, 6.2rem); }
+.home-hero .stroke-text { color: var(--accent); -webkit-text-stroke: 0; }
+.hero-identity { display: flex; align-items: center; gap: 13px; margin-top: 28px; }
+.hero-identity img { width: 56px; height: 56px; object-fit: cover; border: 3px solid var(--surface-solid); border-radius: 50%; box-shadow: 0 8px 24px #123c2826; }
+.hero-identity strong, .hero-identity span { display: block; }
+.hero-identity strong { font-size: .85rem; }
+.hero-identity span { color: var(--muted); font-size: .72rem; }
+.blueprint { min-height: 570px; isolation: isolate; }
+.blueprint-grid { inset: 49% auto auto 50%; width: 94%; border-radius: 36px; transform: translate(-50%,-50%) rotateX(var(--tilt-y,0deg)) rotateY(var(--tilt-x,0deg)) rotate(-8deg); background: linear-gradient(140deg,var(--surface),var(--accent-soft)); box-shadow: 20px 35px 65px #10362718, inset 0 0 60px var(--blue-soft); }
+.blueprint-grid::before { inset: 8%; border-radius: 50%; }
+.blueprint-grid::after { inset: 23%; border-radius: 50%; }
+.blueprint-hint { top: -3%; width: max-content; max-width: 100%; font-size: .58rem; }
+.assembly-depth { position: absolute; inset: 1% -4% 9%; transform-style: preserve-3d; transform: rotateX(var(--tilt-y,0deg)) rotateY(var(--tilt-x,0deg)) translateZ(65px); transition: transform 180ms ease-out; pointer-events: none; }
+.assembly-image { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(16px 32px 18px #0b302c44); animation: assembly-float 7s ease-in-out infinite; }
+@keyframes assembly-float { 0%,100% { transform: translate3d(0,8px,0) rotate(-3deg); } 50% { transform: translate3d(0,-12px,0) rotate(1deg); } }
+.blueprint .node-card { min-width: 126px; z-index: 2; padding: 12px 14px; background: var(--surface-solid); border-color: var(--line-strong); box-shadow: 0 15px 30px #10362726, 0 3px 0 color-mix(in srgb,var(--accent) 15%,var(--surface-solid)); transform: rotateX(var(--tilt-y,0deg)) rotateY(var(--tilt-x,0deg)) translateZ(95px); }
+.blueprint .node-card:hover, .blueprint .node-card:focus-visible { transform: translateY(-8px) translateZ(115px); }
+.blueprint .node-card.is-active { border-color: var(--accent); }
+.blueprint .node-card::before { display: inline-block; margin: 0 6px 0 0; width: 5px; }
+.blueprint .node-card strong { display: inline; font-size: .72rem; }
+.blueprint .node-card small { display: block; font-size: .61rem; margin-top: 3px; }
+.blueprint .node-1 { top: 8%; left: -3%; }
+.blueprint .node-2 { top: 29%; right: -4%; }
+.blueprint .node-3 { bottom: 34%; left: -4%; }
+.blueprint .node-4 { bottom: 12%; right: -2%; }
+.scene-caption { position: absolute; bottom: -1%; left: 0; right: 0; display: flex; align-items: center; justify-content: space-between; gap: 12px; color: var(--muted); font-size: .62rem; letter-spacing: .06em; text-transform: uppercase; }
+.scene-caption [data-blueprint-label] { color: var(--accent); font-weight: 850; }
+.motion-toggle { min-height: 42px; padding: 0 10px; background: var(--surface-solid); color: var(--muted); border: 1px solid var(--line); border-radius: 12px; font-size: .65rem; cursor: pointer; white-space: nowrap; }
+.motion-toggle:disabled { cursor: default; }
+.project-grid { gap: 32px; }
+.project-card { overflow: visible; padding: 28px; background: linear-gradient(150deg,var(--surface-solid),var(--surface-2)); box-shadow: 0 12px 30px #143e2310; will-change: auto; }
+.project-card::before { left: 28px; right: 28px; width: auto; border-radius: 0 0 8px 8px; }
+.project-card::after { display: none; }
+.project-card:hover, .project-card:focus-visible { --card-lift: -9px; box-shadow: 0 32px 55px #0d302c29, 0 7px 0 var(--accent-soft); }
+.project-meta { transform: translateZ(20px); }
+.project-art { position: relative; display: grid; place-items: center; height: 265px; margin: 12px 0 30px; transform: translateZ(45px); transform-style: preserve-3d; }
+.project-art::before { position: absolute; inset: 18% 8%; content: ''; border: 1px solid var(--line-strong); border-radius: 50%; transform: rotateX(60deg) translateZ(-15px); background: radial-gradient(ellipse,var(--accent-soft),transparent 70%); }
+.project-art img { width: 100%; height: 260px; object-fit: contain; filter: drop-shadow(12px 20px 12px #0b302c35); transform: translateZ(20px) rotate(-4deg); transition: transform 350ms ease, filter 350ms ease; }
+.project-card:hover .project-art img, .project-card:focus-visible .project-art img { transform: translateY(-14px) translateZ(55px) rotate(1deg) scale(1.05); filter: drop-shadow(18px 30px 16px #0b302c44); }
+.project-art span { position: absolute; bottom: -16px; left: 0; color: var(--muted); font-size: .57rem; letter-spacing: .08em; text-transform: uppercase; }
+.project-copy { transform: translateZ(28px); }
+html[data-motion="paused"] *, html[data-motion="paused"] *::before, html[data-motion="paused"] *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+html[data-motion="paused"] .blueprint, html[data-motion="paused"] .project-card { --tilt-x: 0deg !important; --tilt-y: 0deg !important; --card-rx: 0deg !important; --card-ry: 0deg !important; --card-lift: 0px !important; }
+html[data-motion="paused"] .ambient-orb { display: none; }
+html[data-motion="paused"] .project-art img, html[data-motion="paused"] .node-card { transform: none !important; transition: none !important; }
+@media (min-width: 981px) and (max-width: 1200px) { .home-hero h1 { font-size: 4.5rem; } .blueprint { min-height: 510px; } .nav-hire { display: none; } }
+@media (max-width: 980px) { .home-hero { grid-template-columns: 1fr; gap: 60px; } .home-hero h1 { max-width: 740px; font-size: clamp(3.4rem,8vw,5.4rem); } .blueprint { width: min(100%,560px); min-height: 550px; margin-inline: auto; } .assembly-image { animation: none; } .project-art { height: 230px; } .project-art img { height: 230px; } }
+@media (max-width: 600px) { .home-hero { padding-block: 42px 65px; gap: 52px; } .home-hero h1 { font-size: clamp(2.6rem,11.5vw,4rem); line-height: .99; letter-spacing: -.065em; } .hero-lead { font-size: .95rem; } .blueprint { min-height: 390px; width: calc(100% - 16px); } .blueprint .node-card { min-width: 100px; padding: 8px 9px; } .blueprint .node-card strong { font-size: .65rem; } .blueprint .node-card small { font-size: .53rem; } .blueprint .node-1 { left: -1%; } .blueprint .node-2 { right: -1%; } .blueprint .node-3 { left: -1%; bottom: 31%; } .blueprint .node-4 { right: -1%; } .scene-caption { font-size: .51rem; } .blueprint-hint { font-size: .5rem; } .project-card { padding: 23px; } .project-art { height: 230px; } .project-grid { gap: 26px; } .motion-toggle { font-size: .58rem; min-height: 38px; padding: 0 7px; } }
+@media (max-width: 380px) { .blueprint { min-height: 350px; } .hero-identity span { font-size: .64rem; } .motion-toggle { max-width: 57px; white-space: normal; line-height: 1.1; } }
+@media (prefers-reduced-motion: reduce) { html:not([data-motion="running"]) .assembly-image { animation: none; } html:not([data-motion="running"]) :is(.assembly-depth, .project-art img, .project-card, .node-card) { transform: none !important; transition: none !important; } }
+@media print { .motion-toggle { display: none; } .assembly-image { animation: none; } .project-card { box-shadow: none; transform: none; } }
+
 </style>
 </head>
 <body>
@@ -2260,6 +2315,7 @@ button.contact-link {
       <div class="nav-actions">
         <a class="button primary small nav-hire" href="#contact" data-app-link>Hire me</a>
         <button class="nav-icon" type="button" data-theme-toggle aria-label="Switch to night mode"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg><span class="theme-label">Night</span></button>
+        <button class="motion-toggle" type="button" data-motion-toggle aria-pressed="false">Pause motion</button>
         <button class="nav-icon menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-label="Open navigation"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
       </div>
     </nav>
@@ -2278,12 +2334,13 @@ button.contact-link {
             <a class="button" href="#work" data-app-link>Explore my work <span aria-hidden="true">↗</span></a>
             <a class="button ghost" href="#contact" data-app-link>Contact me</a>
           </div>
+          <div class="hero-identity"><img src="/assets/image-4acfcc83f92e.jpg" width="56" height="56" alt="Portrait of Kunal Karankal"><div><strong>Kunal Karankal</strong><span>Mechanical design · CAD automation</span></div></div>
         </div>
 
-        <div class="blueprint reveal" aria-label="Interactive diagram connecting parameters, CAD, validation, and production" data-blueprint>
-          <div class="blueprint-hint" aria-hidden="true">Explore the engineering system</div>
+        <div class="blueprint reveal" aria-label="Interactive engineering concept: parameters, CAD, validation, and production" data-blueprint>
+          <div class="blueprint-hint" aria-hidden="true">Design. Automate. Bring it to life.</div>
           <div class="blueprint-grid" aria-hidden="true"></div>
-          <div class="portrait-core"><img fetchpriority="high" decoding="async" src="/assets/image-4acfcc83f92e.jpg" alt="Portrait of Kunal Karankal"><span data-blueprint-label>CAD + AUTOMATION</span></div>
+          <div class="assembly-depth"><img class="assembly-image" src="/assets/concept-housing-1cae0a8842ec.webp" width="960" height="960" fetchpriority="high" decoding="async" alt="Concept illustration of an exploded mechanical housing with floating metal parts and emerald seals"></div><div class="scene-caption"><span data-blueprint-label>INPUTS</span><span>AI concept artwork</span></div>
           <button class="node-card node-1 is-active" type="button" data-engineering-node data-stage="INPUTS" aria-pressed="true"><strong>Inputs</strong><small>Parameters & intent</small></button>
           <button class="node-card node-2" type="button" data-engineering-node data-stage="MODEL" aria-pressed="false"><strong>Model</strong><small>Inventor & Creo</small></button>
           <button class="node-card node-3" type="button" data-engineering-node data-stage="VALIDATE" aria-pressed="false"><strong>Validate</strong><small>Fit, form & function</small></button>
@@ -2335,6 +2392,7 @@ button.contact-link {
         <div class="project-grid">
           <a class="project-card reveal" href="#project-cad-configurator" data-app-link data-accent="green">
             <div class="project-meta"><span>Automation</span><span>Current work</span></div>
+            <div class="project-art art-housing"><img src="/assets/concept-housing-1cae0a8842ec.webp" width="960" height="960" loading="lazy" decoding="async" alt=""><span>AI concept illustration</span></div>
             <div class="project-copy">
               <h3>Parametric CAD configurator</h3>
               <p>VB.NET-supported configurator tools—including housing configuration—that turn simple inputs into ready-to-use CAD models.</p>
@@ -2344,6 +2402,7 @@ button.contact-link {
 
           <a class="project-card reveal" href="#project-switchgear" data-app-link data-accent="blue">
             <div class="project-meta"><span>Product design</span><span>2023–2025</span></div>
+            <div class="project-art art-switchgear"><img src="/assets/concept-switchgear-363695cbd523.webp" width="960" height="960" loading="lazy" decoding="async" alt=""><span>AI concept illustration</span></div>
             <div class="project-copy">
               <h3>Switchgear design & retrofit engineering</h3>
               <p>12 kV/36 kV RMUs, AIS retrofits, hybrid modules, nine product variants, IEC testing support, and production documentation.</p>
@@ -2353,6 +2412,7 @@ button.contact-link {
 
           <a class="project-card reveal" href="#project-fin-cfd" data-app-link data-accent="amber">
             <div class="project-meta"><span>Research & analysis</span><span>2023</span></div>
+            <div class="project-art art-thermal"><img src="/assets/concept-thermal-ba0470c6fb90.webp" width="960" height="960" loading="lazy" decoding="async" alt=""><span>AI concept illustration</span></div>
             <div class="project-copy">
               <h3>Fin configuration CFD study</h3>
               <p>Geometry optimization, Ansys Fluent simulation, experimental validation, and a published Springer book chapter.</p>
@@ -2362,6 +2422,7 @@ button.contact-link {
 
           <a class="project-card reveal" href="#project-iot-energy" data-app-link data-accent="green">
             <div class="project-meta"><span>IoT system</span><span>2022</span></div>
+            <div class="project-art art-iot"><img src="/assets/concept-iot-fb2867e5d9af.webp" width="960" height="960" loading="lazy" decoding="async" alt=""><span>AI concept illustration</span></div>
             <div class="project-copy">
               <h3>IoT energy management system</h3>
               <p>A connected app for faster energy evaluation with real-time graphical reports and hardware integration.</p>
@@ -2437,18 +2498,22 @@ button.contact-link {
         <div class="project-grid">
           <a class="project-card reveal" href="#project-cad-configurator" data-app-link data-project="automation design">
             <div class="project-meta"><span>Automation</span><span>Pall Corporation</span></div>
+            <div class="project-art art-housing"><img src="/assets/concept-housing-1cae0a8842ec.webp" width="960" height="960" loading="lazy" decoding="async" alt=""><span>AI concept illustration</span></div>
             <div class="project-copy"><h3>CAD & housing configurators</h3><p>Custom VB.NET-supported tools that generate ready-to-use models from simple parameters while improving engineering data flow.</p><div class="tag-row"><span class="tag">VB.NET</span><span class="tag">Design Automation</span><span class="tag">VAVE</span></div></div>
           </a>
           <a class="project-card reveal" href="#project-switchgear" data-app-link data-project="design automation" data-accent="blue">
             <div class="project-meta"><span>Product design</span><span>CG Power</span></div>
+            <div class="project-art art-switchgear"><img src="/assets/concept-switchgear-363695cbd523.webp" width="960" height="960" loading="lazy" decoding="async" alt=""><span>AI concept illustration</span></div>
             <div class="project-copy"><h3>12 kV & 36 kV switchgear development</h3><p>RMUs, AIS breaker retrofits, hybrid modules, nine variants, IEC testing support, KERI trials, and production documentation.</p><div class="tag-row"><span class="tag">Autodesk Inventor</span><span class="tag">IEC Testing</span><span class="tag">GD&T</span></div></div>
           </a>
           <a class="project-card reveal" href="#project-fin-cfd" data-app-link data-project="analysis design" data-accent="amber">
             <div class="project-meta"><span>Research</span><span>B.Tech project</span></div>
+            <div class="project-art art-thermal"><img src="/assets/concept-thermal-ba0470c6fb90.webp" width="960" height="960" loading="lazy" decoding="async" alt=""><span>AI concept illustration</span></div>
             <div class="project-copy"><h3>Fin configuration CFD study</h3><p>Inventor-based geometry, Ansys thermal analysis, prototype testing, 10+ paper literature review, and a 15% improvement.</p><div class="tag-row"><span class="tag">Autodesk Inventor</span><span class="tag">Ansys Workbench</span><span class="tag">Validation</span></div></div>
           </a>
           <a class="project-card reveal" href="#project-iot-energy" data-app-link data-project="iot automation">
             <div class="project-meta"><span>IoT</span><span>2022</span></div>
+            <div class="project-art art-iot"><img src="/assets/concept-iot-fb2867e5d9af.webp" width="960" height="960" loading="lazy" decoding="async" alt=""><span>AI concept illustration</span></div>
             <div class="project-copy"><h3>IoT energy management system</h3><p>A hardware-and-app system for faster energy evaluation with real-time graphical reporting.</p><div class="tag-row"><span class="tag">Arduino</span><span class="tag">Android Studio</span><span class="tag">PyCharm</span></div></div>
           </a>
         </div>
@@ -2906,7 +2971,7 @@ menuToggle?.addEventListener('click', () => {
 
 document.addEventListener('click', (event) => {
   if (!navLinks?.classList.contains('is-open')) return;
-  if (navLinks.contains(event.target) || menuToggle?.contains(event.target)) return;
+  if (event.composedPath().includes(navLinks) || event.composedPath().includes(menuToggle)) return;
   setMenu(false);
 });
 
@@ -2927,7 +2992,24 @@ document.querySelectorAll('[data-nav]').forEach((link) => {
   if (link.dataset.nav === currentPage) link.setAttribute('aria-current', 'page');
 });
 
-const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+let reduceMotion = motionPreference.matches;
+const motionToggle = document.querySelector('[data-motion-toggle]');
+const setMotionPaused = (paused) => {
+  root.dataset.motion = paused ? 'paused' : 'running';
+  motionToggle.textContent = paused ? 'Resume motion' : 'Pause motion';
+  motionToggle.setAttribute('aria-pressed', String(paused));
+  if (reduceMotion) motionToggle.textContent = 'Enable motion';
+};
+setMotionPaused(reduceMotion);
+motionToggle.addEventListener('click', () => {
+  reduceMotion = false;
+  setMotionPaused(root.dataset.motion !== 'paused');
+});
+motionPreference.addEventListener('change', (event) => {
+  reduceMotion = event.matches;
+  setMotionPaused(reduceMotion);
+});
 if (!reduceMotion && 'IntersectionObserver' in window) {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
@@ -2943,7 +3025,7 @@ if (!reduceMotion && 'IntersectionObserver' in window) {
 }
 
 const ambientOrb = document.querySelector('[data-ambient-orb]');
-if (ambientOrb && !reduceMotion && window.matchMedia('(pointer: fine)').matches && window.matchMedia('(min-width: 981px)').matches) {
+if (ambientOrb && window.matchMedia('(pointer: fine)').matches && window.matchMedia('(min-width: 981px)').matches) {
   let orbTargetX = -600;
   let orbTargetY = -600;
   let orbCurrentX = -600;
@@ -2960,6 +3042,7 @@ if (ambientOrb && !reduceMotion && window.matchMedia('(pointer: fine)').matches 
     }
   };
   document.addEventListener('pointermove', (event) => {
+    if (reduceMotion || root.dataset.motion === 'paused') return;
     orbTargetX = event.clientX;
     orbTargetY = event.clientY;
     body.classList.add('has-pointer');
@@ -3020,14 +3103,15 @@ document.querySelectorAll('[data-filter]').forEach((button) => {
 });
 
 const blueprint = document.querySelector('[data-blueprint]');
-if (blueprint && !reduceMotion && window.matchMedia('(pointer: fine)').matches) {
+if (blueprint && window.matchMedia('(pointer: fine) and (min-width: 981px)').matches) {
   let tiltFrame = 0;
   let tiltX = 0;
   let tiltY = 0;
   blueprint.addEventListener('pointermove', (event) => {
+    if (reduceMotion || root.dataset.motion === 'paused') return;
     const rect = blueprint.getBoundingClientRect();
-    tiltX = ((event.clientX - rect.left) / rect.width - 0.5) * 7;
-    tiltY = ((event.clientY - rect.top) / rect.height - 0.5) * -7;
+    tiltX = ((event.clientX - rect.left) / rect.width - 0.5) * 15;
+    tiltY = ((event.clientY - rect.top) / rect.height - 0.5) * -12;
     if (tiltFrame) return;
     tiltFrame = window.requestAnimationFrame(() => {
       blueprint.style.setProperty('--tilt-x', `${tiltX}deg`);
@@ -3043,15 +3127,16 @@ if (blueprint && !reduceMotion && window.matchMedia('(pointer: fine)').matches) 
   });
 }
 
-if (!reduceMotion && window.matchMedia('(pointer: fine)').matches && window.matchMedia('(min-width: 981px)').matches) {
+if (window.matchMedia('(pointer: fine)').matches && window.matchMedia('(min-width: 981px)').matches) {
   document.querySelectorAll('.project-card').forEach((card) => {
     let cardFrame = 0;
     let cardRotateX = 0;
     let cardRotateY = 0;
     card.addEventListener('pointermove', (event) => {
+    if (reduceMotion || root.dataset.motion === 'paused') return;
       const rect = card.getBoundingClientRect();
-      cardRotateY = ((event.clientX - rect.left) / rect.width - 0.5) * 5;
-      cardRotateX = ((event.clientY - rect.top) / rect.height - 0.5) * -5;
+      cardRotateY = ((event.clientX - rect.left) / rect.width - 0.5) * 9;
+      cardRotateX = ((event.clientY - rect.top) / rect.height - 0.5) * -9;
       if (cardFrame) return;
       cardFrame = window.requestAnimationFrame(() => {
         card.style.setProperty('--card-rx', `${cardRotateX}deg`);

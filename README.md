@@ -10,7 +10,9 @@ Fast, Vercel-ready static portfolio for a Mechanical Design Engineer focused on 
 
 Certificate previews are lazy-loaded. PDF records load only when a visitor opens or downloads one.
 
-The interface includes an interactive engineering-system hero, pointer-responsive project depth, live reading progress, animated career metrics, and route transitions. Pointer-heavy effects are disabled on smaller screens, and all motion respects the visitor's reduced-motion preference.
+The interface includes a floating exploded-assembly hero, illustrated project cards with pointer-responsive depth, live reading progress, animated career metrics, and route transitions. Four original AI concept illustrations are stored as content-hashed WebP assets and labeled as concept artwork on the page; they do not represent actual project photographs or simulation results.
+
+Pointer-heavy effects are disabled on smaller screens. Reduced-motion preferences pause motion by default, with an explicit Enable motion control. Visitors can pause or resume motion at any time. Light and dark themes, mobile navigation, existing case studies, and document downloads remain available.
 
 ## Vercel settings
 
