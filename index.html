@@ -2284,8 +2284,8 @@ button.contact-link {
 .blueprint-grid { inset: 49% auto auto 50%; width: 94%; border-radius: 36px; transform: translate(-50%,-50%) rotateX(var(--tilt-y,0deg)) rotateY(var(--tilt-x,0deg)) rotate(-8deg); background: linear-gradient(140deg,var(--surface),var(--accent-soft)); box-shadow: 20px 35px 65px #10362718, inset 0 0 60px var(--blue-soft); }
 .blueprint-grid::before { inset: 8%; border-radius: 50%; }
 .blueprint-grid::after { inset: 23%; border-radius: 50%; }
-.blueprint-hint { top: auto; bottom: calc(100% + 56px); z-index: 3; width: max-content; max-width: 100%; font-size: .58rem; color: var(--ink); background: var(--surface-solid); }
-.assembly-depth { position: absolute; inset: 1% -4% 9%; transform-style: preserve-3d; transform: rotateX(var(--tilt-y,0deg)) rotateY(var(--tilt-x,0deg)) translateZ(65px) translateY(var(--assembly-lift,0px)) scale(var(--assembly-scale,1)); transition: transform 180ms ease-out; pointer-events: none; }
+.blueprint-hint { top: -16px; bottom: auto; z-index: 3; width: max-content; max-width: calc(100% - 32px); font-size: .58rem; color: var(--ink); background: var(--surface-solid); box-shadow: 0 5px 14px #082b2326; text-align: center; }
+.assembly-depth { position: absolute; inset: 20% -4% 17%; transform-style: preserve-3d; transform: rotateX(var(--tilt-y,0deg)) rotateY(var(--tilt-x,0deg)) translateZ(65px) translateY(var(--assembly-lift,0px)) scale(var(--assembly-scale,1)); transition: transform 180ms ease-out; pointer-events: none; }
 .assembly-image { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(16px 32px 18px #0b302c44); animation: assembly-float 7s ease-in-out infinite; transition: filter 240ms ease; }
 .blueprint:focus-within .assembly-image { filter: drop-shadow(24px 44px 22px #0b302c77) drop-shadow(0 0 14px var(--accent-soft)); }
 @media (hover: hover) and (pointer: fine) {
@@ -2305,8 +2305,8 @@ button.contact-link {
 .blueprint .node-2 { top: 29%; right: -4%; }
 .blueprint .node-3 { bottom: 34%; left: -4%; }
 .blueprint .node-4 { bottom: 12%; right: -2%; }
-.scene-caption { position: absolute; bottom: -1%; left: 0; right: 0; display: flex; align-items: center; justify-content: space-between; gap: 12px; color: var(--muted); font-size: .62rem; letter-spacing: .06em; text-transform: uppercase; }
-.scene-caption [data-blueprint-label] { color: var(--accent); font-weight: 850; }
+.scene-caption { position: absolute; bottom: 12px; left: 24px; right: 24px; display: flex; align-items: center; justify-content: center; gap: 12px; color: var(--muted); font-size: .56rem; letter-spacing: .06em; text-transform: uppercase; }
+.scene-caption [data-blueprint-label] { padding: 5px 9px; border: 1px solid var(--line-strong); border-radius: 8px; background: var(--surface-solid); color: var(--accent); font-weight: 850; }
 .motion-toggle { min-height: 42px; padding: 0 10px; background: var(--surface-solid); color: var(--muted); border: 1px solid var(--line); border-radius: 12px; font-size: .65rem; cursor: pointer; white-space: nowrap; }
 .motion-toggle:disabled { cursor: default; }
 .project-grid { gap: 32px; }
@@ -2502,12 +2502,12 @@ body:has(#model-explorer[open]) { overflow: hidden; }
 @media (max-width: 600px) {
   .blueprint { --scene-height: clamp(290px, 90vw, 440px); display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; width: 100%; min-height: 0; padding-top: var(--scene-height); margin-block: 48px 0; }
   .blueprint-grid { top: calc(var(--scene-height) / 2); width: 88%; }
-  .assembly-depth { inset: 0 0 auto; height: var(--scene-height); transform: none; }
-  .blueprint-hint { display: block; top: -42px; bottom: auto; font-size: .54rem; }
+  .assembly-depth { inset: calc(var(--scene-height) * .09) 0 auto; height: calc(var(--scene-height) * .74); transform: none; }
+  .blueprint-hint { display: inline-flex; top: -16px; bottom: auto; font-size: .5rem; }
   .blueprint .node-card { display: block; position: static; order: 1; min-width: 0; width: 100%; padding: 12px; text-align: left; animation: none !important; transform: none !important; }
   .blueprint .node-card strong { font-size: .8rem; }
   .blueprint .node-card small { font-size: .68rem; }
-  .scene-caption { position: static; grid-column: 1/-1; order: 2; flex-wrap: wrap; gap: 8px; font-size: .58rem; }
+  .scene-caption { bottom: 12px; left: 16px; right: 16px; gap: 8px; font-size: .45rem; }
   .hero-model-launch { position: static; grid-column: 1/-1; order: 3; translate: none; margin-top: 0; white-space: normal; }
   .training-item { min-height: 0; padding: 22px; }
   .training-item span { font-size: .9rem; }
@@ -2575,9 +2575,9 @@ body:has(#model-explorer[open]) { overflow: hidden; }
         </div>
 
         <div class="blueprint reveal" aria-label="Interactive engineering concept: parameters, CAD, validation, and production" data-blueprint>
-          <button type="button" class="button model-launch hero-model-launch" data-model="pall">Explore interactive 3D ↗</button><div class="blueprint-hint" aria-hidden="true">Design. Automate. Bring it to life.</div>
-          <div class="blueprint-grid" aria-hidden="true"></div>
-          <div class="assembly-depth"><img class="assembly-image" src="/assets/exploded-pall-f4a1c4475bcc.webp" width="1200" height="1200" fetchpriority="high" decoding="async" alt="Concept illustration of an exploded filtration pressure vessel with separated shell, filter elements and lid"></div><div class="scene-caption"><span data-blueprint-label>INPUTS</span><span>Reference concept artwork</span></div>
+          <button type="button" class="button model-launch hero-model-launch" data-model="pall">Explore interactive 3D ↗</button>
+          <div class="blueprint-grid"><div class="blueprint-hint">Design. Automate. Bring it to life.</div><div class="scene-caption"><span data-blueprint-label>INPUTS</span><span>Reference concept artwork</span></div></div>
+          <div class="assembly-depth"><img class="assembly-image" src="/assets/exploded-pall-f4a1c4475bcc.webp" width="1200" height="1200" fetchpriority="high" decoding="async" alt="Concept illustration of an exploded filtration pressure vessel with separated shell, filter elements and lid"></div>
           <button class="node-card node-1 is-active" type="button" data-engineering-node data-stage="INPUTS" aria-pressed="true"><strong>Inputs</strong><small>Parameters & intent</small></button>
           <button class="node-card node-2" type="button" data-engineering-node data-stage="MODEL" aria-pressed="false"><strong>Model</strong><small>Inventor & Creo</small></button>
           <button class="node-card node-3" type="button" data-engineering-node data-stage="VALIDATE" aria-pressed="false"><strong>Validate</strong><small>Fit, form & function</small></button>
